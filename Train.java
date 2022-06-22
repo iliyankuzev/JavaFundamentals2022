@@ -1,24 +1,36 @@
-package Arrays.Exercise;
+package Exercise;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.Scanner;
+import java.util.stream.Collectors;
 
 public class Train {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
 
-        int wagons = Integer.parseInt(scanner.nextLine());
-        int[] train = new int[wagons];
+        List<Integer> train = Arrays.stream(scanner.nextLine().split("\\s+"))
+                .map(Integer::parseInt).collect(Collectors.toList());
 
-        int allPassengers = 0;
+        int maxCapacity = Integer.parseInt(scanner.nextLine());
+        String input = scanner.nextLine();
+        while (!"end".equals(input)) {
+            String[] data = input.split("\\s+");
+            if (data[0].equals("Add")) {
+                train.add(Integer.parseInt(data[1]));
+            } else {
+                int passengers = Integer.parseInt(data[0]);
+                for (int i = 0; i < train.size(); i++) {
+                    if ((train.get(i) + passengers) <= maxCapacity) {
+                        train.set(i, train.get(i) + passengers);
+                        break;
+                    }
+                }
+            }
 
-        for (int i = 0; i <= train.length - 1; i++) {
-            train[i] = Integer.parseInt(scanner.nextLine());
-            allPassengers += train[i];
-            System.out.print(train[i] + " ");
-
+            input = scanner.nextLine();
         }
-        System.out.println();
-        System.out.println(allPassengers);
-
+        //System.out.println(train.toString().replaceAll("[\\[\\],]", ""));
+        train.forEach(el -> System.out.print(el + " "));
     }
 }
