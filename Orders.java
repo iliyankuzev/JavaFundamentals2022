@@ -1,23 +1,36 @@
-package BasicSyntaxConditionalStatementsLoops.Exercise;
+package MapsLambdaAndStreamAPI.Exercise;
 
-import java.util.Scanner;
+import java.util.*;
 
 public class Orders {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
 
-        int orders = Integer.parseInt(scanner.nextLine());
-        double orderPrice = 0;
-        double totalPrice = 0;
-        for (int i = 1; i <= orders; i++) {
 
-            double pricePerCapsule = Double.parseDouble(scanner.nextLine());
-            int days = Integer.parseInt(scanner.nextLine());
-            int capsulesCount = Integer.parseInt(scanner.nextLine());
-            orderPrice = days * capsulesCount * pricePerCapsule;
-            totalPrice += orderPrice;
-            System.out.printf("The price for the coffee is: $%.2f%n", orderPrice);
+        Map<String, List<Double>> products = new LinkedHashMap<>();
+
+        String input = scanner.nextLine();
+
+        while(!input.equals("buy")){
+
+            String[] data = input.split("\\s+");
+
+            String name = data[0];
+            Double price = Double.parseDouble(data[1]);
+            Double quantity = Double.parseDouble(data[2]);
+
+            if(products.containsKey(name)){
+                products.get(name).set(0,price);
+                products.get(name).set(1, products.get(name).get(1) + quantity);
+            } else{
+                products.put(name,new ArrayList<>());
+                products.get(name).add(price);
+                products.get(name).add(quantity);
+            }
+
+            input = scanner.nextLine();
         }
-        System.out.printf("Total: $%.2f", totalPrice);
+
+        products.forEach((k, v) -> System.out.printf("%s -> %.2f%n",k, v.get(0) * v.get(1)));
     }
 }
