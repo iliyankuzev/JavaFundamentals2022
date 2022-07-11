@@ -6,32 +6,27 @@ import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class demo {
+public class Second {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
 
         String input = scanner.nextLine();
-
-        String regex ="[@#]+(?<color>[a-z]{3,})[@#]+[^\\w]{0,}\\/+(?<amount>[0-9]+)\\/+";
-
+        String regex = "([@]+|[#]+)(?<color>[a-z]{3,})([@]+|[#]+)[\\W]+[\\/]+(?<amount>[\\d]+)[\\/]+";
         Pattern pattern = Pattern.compile(regex);
-        Matcher matcher = pattern.matcher(input);
-        List<Easter> eggsList = new LinkedList<>();
+
+        Matcher matcher = pattern.matcher(scanner.nextLine());
+        List<Second.Easter> eggsList = new LinkedList<>();
         while (matcher.find()) {
             String color = matcher.group("color");
 
             int eggs = Integer.parseInt(matcher.group("amount"));
 
-            Easter easter = new Easter(color, eggs);
+            Second.Easter easter = new Second.Easter(color, eggs);
             eggsList.add(easter);
         }
-//        int days = eggsList.stream().mapToInt(Easter::getEggs).sum();
-//        //System.out.printf("You have food to last you for: %d days!%n", days);
-       // eggsList.forEach(System.out::println);
-        for (int i = 0; i < eggsList.size(); i++) {
-
-            System.out.println(eggsList.get(i));
-        }
+        int days = eggsList.stream().mapToInt(Second.Easter::getEggs).sum();
+        //System.out.printf("You have food to last you for: %d days!%n", days);
+        eggsList.forEach(System.out::println);
     }
 
     static class Easter {
@@ -63,10 +58,8 @@ public class demo {
 
         @Override
         public String toString() {
-            return String.format("You found %d %s eggs!", this.eggs, this.color);
+            return String.format("You found %d %s eggs!%n", this.eggs, this.color);
         }
     }
 }
-
-
 
